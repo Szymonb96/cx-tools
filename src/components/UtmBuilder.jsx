@@ -6,6 +6,10 @@ const presets = {
   "Sales push": {
     utm_source: "braze_sales",
     utm_medium: "notification",
+  },
+  "Automation push": {
+    utm_source: "automation",
+    utm_medium: "notification",
   }
 };
 
