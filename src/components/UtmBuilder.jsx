@@ -5,7 +5,6 @@ function UtmBuilder({ goBack }) {
   const [source, setSource] = useState("");
   const [medium, setMedium] = useState("");
   const [campaign, setCampaign] = useState("");
-  const [term, setTerm] = useState("");
   const [content, setContent] = useState("");
   const [copied, setCopied] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -23,7 +22,6 @@ function UtmBuilder({ goBack }) {
     if (source) params.append("utm_source", source);
     if (medium) params.append("utm_medium", medium);
     if (campaign) params.append("utm_campaign", campaign);
-    if (term) params.append("utm_term", term);
     if (content) params.append("utm_content", content);
 
     return `${url}?${params.toString()}`;
@@ -51,7 +49,6 @@ function UtmBuilder({ goBack }) {
       <Input label="utm_source" value={source} onChange={setSource} />
       <Input label="utm_medium" value={medium} onChange={setMedium} />
       <Input label="utm_campaign" value={campaign} onChange={setCampaign} />
-      <Input label="utm_term" value={term} onChange={setTerm} />
       <Input label="utm_content" value={content} onChange={setContent} />
 
       <div style={{ marginTop: "1rem" }}>
