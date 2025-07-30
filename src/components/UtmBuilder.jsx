@@ -22,20 +22,43 @@ function UtmBuilder() {
   const [utmContent, setUtmContent] = useState("");
   const [generatedUrl, setGeneratedUrl] = useState("");
   const [historyModalOpen, setHistoryModalOpen] = useState(false);
-
   const [linkHistory, setLinkHistory] = useState(
     JSON.parse(localStorage.getItem("utm_history")) || []
   );
 
   const handleGenerate = () => {
-    if (!baseUrl || !utmSource || !utmMedium || !utmCampaign) return;
-    const url = `${baseUrl}?utm_source=${utmSource}&utm_medium=${utmMedium}&utm_campaign=${utmCampaign}&utm_campaign=${utmContent}`;
+
+     const isValidUrl = (url) => {
+    try {
+      new URL(url);
+      return true;
+    }
+    catch {
+      return false;
+    }
+  }
+
+    if (!baseUrl || !isValidUrl(baseUrl)) {
+      alert("Please enter a valid base URL");
+      return
+    }
+
+
+    const params = new URLSearchParams();
+    if (utmSource) params.append("utm_source", utmSource);
+    if (utmMedium) params.append("utm_medium", utmMedium);
+    if (utmCampaign) params.append("utm_campaign", utmCampaign);
+    if (utmContent) params.append("utm_content", utmContent);
+    const url = `${baseUrl}?${params.toString()}`;
     setGeneratedUrl(url);
+
 
     const updatedHistory = [url, ...linkHistory].slice(0, 10);
     setLinkHistory(updatedHistory);
     localStorage.setItem("utm_history", JSON.stringify(updatedHistory));
   };
+
+
 
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
@@ -54,6 +77,15 @@ function UtmBuilder() {
     setLinkHistory([]);
     localStorage.removeItem("utm_history");
   };
+
+  const clearForm = () => {
+    setBaseUrl("")
+    setUtmSource("")
+    setUtmCampaign("")
+    setUtmContent("")
+    setUtmMedium("")
+    setGeneratedUrl("")
+  }
 
   return (
     <div className="utm-builder">
@@ -124,6 +156,9 @@ function UtmBuilder() {
         </button>
         <button className="history-btn" onClick={() => setHistoryModalOpen(true)}>
           Show History
+        </button>
+        <button className="clear-btn" onClick={clearForm}>
+          Clear
         </button>
       </div>
 

@@ -83,6 +83,12 @@ a:link, a:visited {
   cursor: pointer;
 }
 
+
+.clear-btn {
+  background-color: red
+}
+
+
 .result-box {
   margin-top: 1rem;
   padding: 1rem;
